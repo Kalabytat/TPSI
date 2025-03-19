@@ -1,0 +1,19 @@
+import requests
+
+def get_time_spent():
+    url = "http://www.smart-telepass.it/storico?id=1234&anno=2023"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        users = response.xml()
+
+        total_time = [user for user in users if user.ora_ingresso("importocount",0)]
+        return total_time
+    except requests.RequestException as e:
+        print(f"Errore nella richiesta: {e}")
+        return []
+    
+    if __name__ == "__main__":
+        price = get_time_spent()
+        print(price)
+
